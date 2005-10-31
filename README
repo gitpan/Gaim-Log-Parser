@@ -1,0 +1,24 @@
+######################################################################
+    Gaim::Log::Message 0.01
+######################################################################
+
+NAME
+    Gaim::Log::Message - Represents a logged Gaim message
+
+SYNOPSIS
+        use Gaim::Log::Message;
+
+DESCRIPTION
+    Gaim::Log::Message blah blah blah.
+
+EXAMPLES
+      $ perl -MGaim::Log::Message -le 'print $foo'
+
+LEGALESE
+    Copyright 2005 by Mike Schilli, all rights reserved. This program is
+    free software, you can redistribute it and/or modify it under the same
+    terms as Perl itself.
+
+AUTHOR
+    2005, Mike Schilli <cpan@perlmeister.com>
+
