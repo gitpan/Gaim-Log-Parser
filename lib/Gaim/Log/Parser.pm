@@ -7,7 +7,7 @@ use Log::Log4perl qw(:easy);
 use DateTime;
 use Gaim::Log::Message;
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 ###########################################
 sub new {
@@ -15,7 +15,8 @@ sub new {
     my($class, @options) = @_;
 
     my $self = {
-        @options 
+        time_zone => DateTime::TimeZone->new(name => 'local'),
+        @options,
     };
 
     LOGDIE "Cannot open $self->{file}" unless -f $self->{file};
@@ -39,9 +40,7 @@ sub new {
         if($4 =~ /(\d{4})-(\d{2})-(\d{2})\.(\d{2})(\d{2})(\d{2})/) {
           my $dt = DateTime->new(year => $1, month  => $2, day    => $3,
                                  hour => $4, minute => $5, second => $6,
-                                 #time_zone => 'America/Los_Angeles',
-                                 time_zone =>
-                                   DateTime::TimeZone->new(name => 'local'),
+                                 time_zone => $self->{time_zone},
                                 );
           $self->{dt}         = $dt;
         }
@@ -197,9 +196,28 @@ organized in the following way:
 
     .gaim/logs/protocol/local_user/comm_partner/2005-10-29.230219.txt
 
-=head1 EXAMPLES
+=head2 Methods
 
-  $ perl -MGaim::Log::Parser -le 'print $foo'
+=over 4
+
+=item C<my $parser = Gaim::Log::Parser->new(file =E<gt> $filename)>
+
+Create a new log parser. 
+
+The parser will interpret the message time stamps according to a selected
+time zone.
+
+By default, the time zone is assumed to be 'local' which will try all
+kinds of tricks to determine the local time zone. If this is not what you
+want, a time zone for DateTime::TimeZone can be provided, e.g.
+"America/Los_Angeles".
+
+=item C<my $msg = $parser-E<gt>next_message()>
+
+Return the next message in the log. Returns an object of type
+C<Gaim::Log::Message>. Check its documentation for details.
+
+=back
 
 =head1 LEGALESE
 

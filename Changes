@@ -1,5 +1,11 @@
 ######################################################################
 Revision history for Perl extension Gaim::Log::Parser
 
+0.02  2006/10/17
+    (ms) Improved documentation
+    (ms) Added time zones
+
+0.02  2006/10/17
+
 0.01  2005/10/30
-      * Where it all began.
+    (ms) Where it all began.

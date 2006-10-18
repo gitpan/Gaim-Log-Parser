@@ -3,8 +3,11 @@ package Gaim::Log::Message;
 ###########################################
 use strict;
 use warnings;
+use DateTime;
+use DateTime::Format::Strptime;
+use Log::Log4perl qw(:easy);
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 our @ACCESSORS = qw(from to protocol date content);
 
 ###########################################
@@ -68,13 +71,50 @@ Gaim::Log::Message - Represents a logged Gaim message
 
     use Gaim::Log::Message;
 
+    my $msg = Gaim::Log::Message->new(
+                from    => $from,
+                to      => $to,
+                date    => $date,
+                content => $content,
+    );
+
+    print $msg->as_string(), "\n";
+
 =head1 DESCRIPTION
 
-Gaim::Log::Message blah blah blah.
+Helper class to represent a gaim log message. The following accessors
+are available:
 
-=head1 EXAMPLES
+=over 4
 
-  $ perl -MGaim::Log::Message -le 'print $foo'
+=item from()
+
+User ID the message was sent from.
+
+=item to()
+
+User ID the message was sent to.
+
+=item date()
+
+Date in epoch seconds.
+
+=item content()
+
+Content of the message.
+
+=back
+
+=head2 Additional Methods
+
+=over 4
+
+=item $msg-E<lt>as_string()
+
+Format all messages fields (from, to, date, content) and return the
+result as a string.
+
+=back
 
 =head1 LEGALESE
 

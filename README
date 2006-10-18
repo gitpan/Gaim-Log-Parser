@@ -1,5 +1,5 @@
 ######################################################################
-    Gaim::Log::Message 0.01
+    Gaim::Log::Message 0.02
 ######################################################################
 
 NAME
@@ -8,11 +8,35 @@ NAME
 SYNOPSIS
         use Gaim::Log::Message;
 
-DESCRIPTION
-    Gaim::Log::Message blah blah blah.
+        my $msg = Gaim::Log::Message->new(
+                    from    => $from,
+                    to      => $to,
+                    date    => $date,
+                    content => $content,
+        );
 
-EXAMPLES
-      $ perl -MGaim::Log::Message -le 'print $foo'
+        print $msg->as_string(), "\n";
+
+DESCRIPTION
+    Helper class to represent a gaim log message. The following accessors
+    are available:
+
+    from()
+        User ID the message was sent from.
+
+    to()
+        User ID the message was sent to.
+
+    date()
+        Date in epoch seconds.
+
+    content()
+        Content of the message.
+
+  Additional Methods
+    $msg-<as_string()
+        Format all messages fields (from, to, date, content) and return the
+        result as a string.
 
 LEGALESE
     Copyright 2005 by Mike Schilli, all rights reserved. This program is
