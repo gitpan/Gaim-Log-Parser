@@ -7,7 +7,6 @@ use DateTime;
 use DateTime::Format::Strptime;
 use Log::Log4perl qw(:easy);
 
-our $VERSION = "0.02";
 our @ACCESSORS = qw(from to protocol date content);
 
 ###########################################

@@ -42,3 +42,5 @@ is($msg->from(), "to_user", "to_user sends");
 
 $msg = $p->next_message();
 is($msg->from(), "chat_user", "chat_user sends");
+
+is($p->datetime->month, "10", "check datetime");

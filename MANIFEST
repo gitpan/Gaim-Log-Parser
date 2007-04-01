@@ -1,5 +1,6 @@
 Changes
 eg/canned/proto/from_user/to_user/2005-10-29.230219.txt
+lib/Gaim/Log/Finder.pm
 lib/Gaim/Log/Message.pm
 lib/Gaim/Log/Parser.pm
 Makefile.PL
@@ -9,3 +10,5 @@ META.yml
 README
 t/001Basic.t
 t/002DateTime.t
+t/003Finder.t
+t/data/yahoo/from/to/2006-12-08.163235.txt

@@ -7,7 +7,7 @@ use Log::Log4perl qw(:easy);
 use DateTime;
 use Gaim::Log::Message;
 
-our $VERSION = "0.02";
+our $VERSION = "0.03";
 
 ###########################################
 sub new {
@@ -171,6 +171,14 @@ sub offset {
     return $self->{offset};
 }
 
+###########################################
+sub datetime {
+###########################################
+    my($self) = @_;
+
+    return $self->{dt};
+}
+
 1;
 
 __END__
@@ -216,6 +224,16 @@ want, a time zone for DateTime::TimeZone can be provided, e.g.
 
 Return the next message in the log. Returns an object of type
 C<Gaim::Log::Message>. Check its documentation for details.
+
+=item C<my $dt = $parser-E<gt>datetime()>
+
+Retrieve the DateTime object used internally by
+C<Gaim::Log::Parser>. Can be used to obtain the 
+the start date of the parsed log file or the time zone used.
+
+=head1 SEE ALSO
+
+L<Gaim::Log::Finder>, L<Gaim::Log::Message> in this distribution
 
 =back
 

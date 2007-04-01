@@ -1,42 +1,48 @@
 ######################################################################
-    Gaim::Log::Message 0.02
+    Gaim::Log::Parser 0.03
 ######################################################################
 
 NAME
-    Gaim::Log::Message - Represents a logged Gaim message
+    Gaim::Log::Parser - Parse Gaim's Log Files
 
 SYNOPSIS
-        use Gaim::Log::Message;
+        use Gaim::Log::Parser;
 
-        my $msg = Gaim::Log::Message->new(
-                    from    => $from,
-                    to      => $to,
-                    date    => $date,
-                    content => $content,
-        );
+        my $parser = Gaim::Log::Parser->new(file => $filename);
 
-        print $msg->as_string(), "\n";
+        while(my $msg = $parser->next_message()) {
+            print $msg->as_string();
+        }
 
 DESCRIPTION
-    Helper class to represent a gaim log message. The following accessors
-    are available:
+    Gaim::Log::Parser parses Gaim's log files. In the 1.4+ series, they are
+    organized in the following way:
 
-    from()
-        User ID the message was sent from.
+        .gaim/logs/protocol/local_user/comm_partner/2005-10-29.230219.txt
 
-    to()
-        User ID the message was sent to.
+  Methods
+    "my $parser = Gaim::Log::Parser-"new(file => $filename)>
+        Create a new log parser.
 
-    date()
-        Date in epoch seconds.
+        The parser will interpret the message time stamps according to a
+        selected time zone.
 
-    content()
-        Content of the message.
+        By default, the time zone is assumed to be 'local' which will try
+        all kinds of tricks to determine the local time zone. If this is not
+        what you want, a time zone for DateTime::TimeZone can be provided,
+        e.g. "America/Los_Angeles".
 
-  Additional Methods
-    $msg-<as_string()
-        Format all messages fields (from, to, date, content) and return the
-        result as a string.
+    "my $msg = $parser->next_message()"
+        Return the next message in the log. Returns an object of type
+        "Gaim::Log::Message". Check its documentation for details.
+
+    "my $dt = $parser->datetime()"
+        Retrieve the DateTime object used internally by "Gaim::Log::Parser".
+        Can be used to obtain the the start date of the parsed log file or
+        the time zone used.
+
+SEE ALSO
+        Gaim::Log::Finder, Gaim::Log::Message in this distribution
 
 LEGALESE
     Copyright 2005 by Mike Schilli, all rights reserved. This program is
