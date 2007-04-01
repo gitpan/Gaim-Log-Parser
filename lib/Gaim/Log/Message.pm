@@ -8,6 +8,7 @@ use DateTime::Format::Strptime;
 use Log::Log4perl qw(:easy);
 
 our @ACCESSORS = qw(from to protocol date content);
+our $VERSION   = "0.04";
 
 ###########################################
 sub new {

@@ -1,6 +1,10 @@
 ######################################################################
 Revision history for Perl extension Gaim::Log::Parser
 
+0.04  2007/04/01
+    (ms) Added VERSION back to Gaim::Log::Message
+         since PAUSE indexer complained.
+
 0.03  2007/03/31
     (ms) Added Gaim::Log::Finder
     (ms) Added datetime() accessor
