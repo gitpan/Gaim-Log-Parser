@@ -1,6 +1,9 @@
 ######################################################################
 Revision history for Perl extension Gaim::Log::Parser
 
+0.05  2007/04/02
+    (ms) Fixed dependency on Strptime
+
 0.04  2007/04/01
     (ms) Added VERSION back to Gaim::Log::Message
          since PAUSE indexer complained.

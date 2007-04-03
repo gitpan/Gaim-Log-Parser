@@ -8,6 +8,7 @@ use strict;
 
 use Log::Log4perl qw(:easy);
 #Log::Log4perl->easy_init($DEBUG);
+use Gaim::Log::Finder;
 
 my $EG = "eg";
 $EG = "../eg" unless -d $EG;

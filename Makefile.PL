@@ -10,6 +10,7 @@ WriteMakefile(
         Log::Log4perl      => 0,
         DateTime           => 0,
         DateTime::TimeZone => 0,
+        DateTime::Format::Strptime => 0,
     }, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM => 'lib/Gaim/Log/Parser.pm',
