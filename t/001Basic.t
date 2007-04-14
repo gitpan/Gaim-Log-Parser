@@ -6,15 +6,17 @@
 use warnings;
 use strict;
 
+use Gaim::Log::Parser;
+
+use Test::More;
+plan tests => 16;
+
 use Log::Log4perl qw(:easy);
 #Log::Log4perl->easy_init($DEBUG);
 use Gaim::Log::Parser;
 
 my $EG = "eg";
 $EG = "../eg" unless -d $EG;
-
-use Test::More qw(no_plan);
-BEGIN { use_ok('Gaim::Log::Parser') };
 
 my $p = Gaim::Log::Parser->new(
     file => "$EG/canned/proto/from_user/to_user/2005-10-29.230219.txt");
@@ -45,3 +47,7 @@ $msg = $p->next_message();
 is($msg->from(), "chat_user", "chat_user sends");
 
 is($p->datetime->month, "10", "check datetime");
+
+$msg = $p->next_message();
+is($msg->content(), "line with : embedded", "line with :");
+

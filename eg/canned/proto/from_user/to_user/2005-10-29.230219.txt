@@ -6,3 +6,4 @@ i
 j
 (06:45:05) to_user: reply
 (06:45:05) chat_user: reply
+(06:45:06) to_user: line with : embedded

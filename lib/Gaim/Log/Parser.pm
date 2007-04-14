@@ -7,7 +7,7 @@ use Log::Log4perl qw(:easy);
 use DateTime;
 use Gaim::Log::Message;
 
-our $VERSION = "0.05";
+our $VERSION = "0.06";
 
 ###########################################
 sub new {
@@ -137,7 +137,7 @@ sub next_message {
     my $receiver = $self->{to};
 
         # strip "from_user: " from beginning of message
-    if($msg =~ /(.*?): /) {
+    if($msg =~ /^(.*?): /) {
         if($1 eq $receiver) {
                 # The other party sent
             ($sender, $receiver) = ($receiver, $sender);
@@ -145,7 +145,7 @@ sub next_message {
                 # A different chat user sent
             $sender = $1;
         }
-        $msg =~ s/(.*?): //g;
+        $msg =~ s/^(.*?): //;
     } else {
             # No sender specified. This could be a message like
             # "foo logged out.". Leave sender/receiver as is.
