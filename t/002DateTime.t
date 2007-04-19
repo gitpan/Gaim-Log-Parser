@@ -16,7 +16,7 @@ $EG = "../eg" unless -d $EG;
 use Test::More;
 BEGIN { use_ok('Gaim::Log::Parser') };
 
-plan tests => 2;
+plan tests => 4;
 
 my $canned = "$EG/canned/proto/from_user/to_user/2005-10-29.230219.txt";
 
@@ -38,3 +38,18 @@ $p = Gaim::Log::Parser->new(
 $msg = $p->next_message();
 $epoch = $msg->date();
 is($epoch, "1130644943", "Check Epoch in Chicago timezone");
+
+# Offline-Messages 
+$canned = "$EG/canned/proto/from_user/to_user/2005-10-29.230220.txt";
+
+$p = Gaim::Log::Parser->new(
+    file      => $canned,
+    time_zone => "America/Los_Angeles",
+);
+$msg = $p->next_message();
+$epoch = $msg->date();
+is($epoch, "1154239445", "Explicit date given");
+
+$msg = $p->next_message();
+$epoch = $msg->date();
+is($epoch, "1130652188", "Falling back to default date");

@@ -1,6 +1,10 @@
 ######################################################################
 Revision history for Perl extension Gaim::Log::Parser
 
+0.07  2007/04/19
+    (ms) Added support for offline messages with explicit dates,
+         fixing a bug reported by Andrea Carpani.
+
 0.06  2007/04/13
     (ms) Fixed bug that cut messages containing a ":"
 

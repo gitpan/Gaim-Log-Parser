@@ -23,10 +23,10 @@ my $canned = "$EG/canned/proto/from_user/to_user/2005-10-29.230219.txt";
 my @found;
 my $p = Gaim::Log::Finder->new(
     start_dir => "$EG/canned",
-    callback  => sub { push @found, $_[1] },
+    callback  => sub { push @found, $_[1] if $_[1] =~ /219/},
 );
 
 $p->find();
 
-is(scalar @found, 1, "1 txt file found");
+is(scalar @found, 1, "1 txt files found");
 like($found[0], qr/2005-10-29.230219/, "found txt file");

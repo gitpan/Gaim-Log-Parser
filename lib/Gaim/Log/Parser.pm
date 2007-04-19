@@ -7,7 +7,7 @@ use Log::Log4perl qw(:easy);
 use DateTime;
 use Gaim::Log::Message;
 
-our $VERSION = "0.06";
+our $VERSION = "0.07";
 
 ###########################################
 sub new {
@@ -75,7 +75,16 @@ sub next_message {
     my($self) = @_;
 
     my $fh = $self->{fh};
-    my $line_match = qr/^\((\d{2}:\d{2}:\d{2})\) (.*)/;
+    my $time_match = qr/\d{2}:\d{2}:\d{2}/;
+    my $date_match = qr(\d{2}/\d{2}/\d{2});
+
+    #my $line_match = qr/^\((\d{2}:\d{2}:\d{2})\) (.*)/;
+
+    my $line_match_with_time = qr/^\(($time_match)\) (.*)/;
+    my $line_match_with_date_and_time = 
+                               qr/^\(($date_match) ($time_match)\) (.*)/;
+
+    my $line_match = qr($line_match_with_time|$line_match_with_date_and_time);
 
         # Read next line
     my $line = <$fh>;
@@ -87,12 +96,16 @@ sub next_message {
         return undef;
     }
 
-    my($date, $msg);
+    my($time, $date, $msg);
 
         # Valid line?
-    if($line =~ /$line_match/) {
-        $date = $1;
+    if($line =~ /$line_match_with_time/) {
+        $time = $1;
         $msg  = $2;
+    } elsif($line =~ /$line_match_with_date_and_time/) {
+        $date = $1;
+        $time = $2;
+        $msg  = $3;
     } else {
         while(defined $line and $line !~ /$line_match/) {
             chomp $line;
@@ -122,12 +135,22 @@ sub next_message {
         # Check if we have a roll-over
     my $dtclone = $self->{dt}->clone();
 
-    my($hour, $minute, $second) = split /:/, $date;
+    if($date) {
+      my($month, $day, $year) = split m#/#, $date;
+      
+      $dtclone = DateTime->new(year      => $year + 2000, 
+                               month     => $month, 
+                               day       => $day,
+                               time_zone => $self->{time_zone},
+      );
+    }
+
+    my($hour, $minute, $second) = split /:/, $time;
     $dtclone->set_hour($hour);
     $dtclone->set_minute($minute);
     $dtclone->set_second($second);
 
-    if($dtclone->epoch() < $self->{dt}->epoch()) {
+    if(!$date and $dtclone->epoch() < $self->{dt}->epoch()) {
         # Rollover detected. Adjust datetime instance variable
         $self->{dt}->add(days => 1);
         $dtclone->add(days => 1);
