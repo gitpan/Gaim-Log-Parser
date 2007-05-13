@@ -7,7 +7,7 @@ use Log::Log4perl qw(:easy);
 use DateTime;
 use Gaim::Log::Message;
 
-our $VERSION = "0.07";
+our $VERSION = "0.08";
 
 ###########################################
 sub new {
@@ -75,16 +75,19 @@ sub next_message {
     my($self) = @_;
 
     my $fh = $self->{fh};
-    my $time_match = qr/\d{2}:\d{2}:\d{2}/;
-    my $date_match = qr(\d{2}/\d{2}/\d{2});
-
-    #my $line_match = qr/^\((\d{2}:\d{2}:\d{2})\) (.*)/;
+    my $time_match      = qr/\d{2}:\d{2}:\d{2}/;
+    my $date_match      = qr(\d{2}/\d{2}/\d{2,4});
+    my $euro_date_match = qr(\d{2}\.\d{2}\.\d{2,4});
 
     my $line_match_with_time = qr/^\(($time_match)\) (.*)/;
     my $line_match_with_date_and_time = 
                                qr/^\(($date_match) ($time_match)\) (.*)/;
+    my $line_match_with_euro_date_and_time = 
+                               qr/^\(($euro_date_match) ($time_match)\) (.*)/;
 
-    my $line_match = qr($line_match_with_time|$line_match_with_date_and_time);
+    my $line_match = qr($line_match_with_time|
+                        $line_match_with_date_and_time|
+                        $line_match_with_euro_date_and_time)x;
 
         # Read next line
     my $line = <$fh>;
@@ -96,7 +99,7 @@ sub next_message {
         return undef;
     }
 
-    my($time, $date, $msg);
+    my($time, $date, $msg, $day, $month, $year);
 
         # Valid line?
     if($line =~ /$line_match_with_time/) {
@@ -104,6 +107,12 @@ sub next_message {
         $msg  = $2;
     } elsif($line =~ /$line_match_with_date_and_time/) {
         $date = $1;
+        ($month, $day, $year) = split m#/#, $date;
+        $time = $2;
+        $msg  = $3;
+    } elsif($line =~ /$line_match_with_euro_date_and_time/) {
+        $date = $1;
+        ($day, $month, $year) = split m#\.#, $date;
         $time = $2;
         $msg  = $3;
     } else {
@@ -113,6 +122,12 @@ sub next_message {
                     "Line '$line' doesn't match $line_match";
             $line = <$fh>;
         }
+    }
+
+      # We accepted either 2 or 4 digit years. Hopefully there's no
+      # gaim logs from < 2000 :).
+    if($year) {
+        $year += 2000 unless length $year == 4;
     }
 
     $self->{offset} = tell $fh;
@@ -136,13 +151,12 @@ sub next_message {
     my $dtclone = $self->{dt}->clone();
 
     if($date) {
-      my($month, $day, $year) = split m#/#, $date;
-      
-      $dtclone = DateTime->new(year      => $year + 2000, 
+      $dtclone = DateTime->new(year      => $year, 
                                month     => $month, 
                                day       => $day,
-                               time_zone => $self->{time_zone},
-      );
+                               time_zone => $self->{time_zone}
+                              );
+      $self->{dt} = $dtclone;
     }
 
     my($hour, $minute, $second) = split /:/, $time;
@@ -262,10 +276,10 @@ L<Gaim::Log::Finder>, L<Gaim::Log::Message> in this distribution
 
 =head1 LEGALESE
 
-Copyright 2005 by Mike Schilli, all rights reserved.
+Copyright 2005-2007 by Mike Schilli, all rights reserved.
 This program is free software, you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
 =head1 AUTHOR
 
-2005, Mike Schilli <cpan@perlmeister.com>
+Mike Schilli <cpan@perlmeister.com>

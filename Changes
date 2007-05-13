@@ -1,6 +1,13 @@
 ######################################################################
 Revision history for Perl extension Gaim::Log::Parser
 
+0.08  2007/05/13
+    (ms) Patch by Joachim Breitner to add european date format.
+         Added with modifications, plus test cases. 
+    (ms) On a log entry with a specific date, the parser will now
+         assume that to be the default date going forward in the
+         log file.
+
 0.07  2007/04/19
     (ms) Added support for offline messages with explicit dates,
          fixing a bug reported by Andrea Carpani.
