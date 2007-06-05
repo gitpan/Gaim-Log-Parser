@@ -6,15 +6,28 @@ use warnings;
 use Log::Log4perl qw(:easy);
 use File::Find ();
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 ###########################################
 sub new {
 ###########################################
     my($class, @options) = @_;
 
+    my ($home) = glob "~";
+
+    my $start_dir;
+
+    for (qw(.purple .gaim)) {
+        my $dir = "$home/$_";
+
+        if(-d $dir) {
+            $start_dir = "$dir/logs";
+            last;
+        }
+    }
+
     my $self = {
-        start_dir => "$ENV{HOME}/.gaim/logs",
+        start_dir => $start_dir,
         callback  => sub { 1 },
         @options,
     };
@@ -89,7 +102,9 @@ The callback function that gets passed in as a code reference
 will be called later for every log file found (see below).
 
 The finder will start in the C<.gaim/logs> directory under the
-current user's home directory. If, for some reason you want to start
+current user's home directory. If it finds C<.purple/logs>, which is the
+log file location for gaim > 2.0 logs, it will use that instead.
+If, for some reason you want to start
 at a different location, pass it in as C<start_dir>:
 
     my $finder = Gaim::Log::Finder->new(

@@ -7,7 +7,7 @@ use Log::Log4perl qw(:easy);
 use DateTime;
 use Gaim::Log::Message;
 
-our $VERSION = "0.08";
+our $VERSION = "0.09";
 
 ###########################################
 sub new {

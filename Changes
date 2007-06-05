@@ -1,6 +1,9 @@
 ######################################################################
 Revision history for Perl extension Gaim::Log::Parser
 
+0.09 2007/06/04
+    (ms) Added .purple directory to find logs in for gaim/pidgin 2.0
+
 0.08  2007/05/13
     (ms) Patch by Joachim Breitner to add european date format.
          Added with modifications, plus test cases. 
