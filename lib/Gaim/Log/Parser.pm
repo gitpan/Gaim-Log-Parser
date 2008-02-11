@@ -6,8 +6,9 @@ use warnings;
 use Log::Log4perl qw(:easy);
 use DateTime;
 use Gaim::Log::Message;
+use Text::Wrap qw(fill);
 
-our $VERSION = "0.09";
+our $VERSION = "0.10";
 
 ###########################################
 sub new {
@@ -24,11 +25,10 @@ sub new {
     open my $fh, "$self->{file}" or 
         LOGDIE "Cannot open $self->{file}";
 
-        # "Conversation with foo at 2005-10-29 23:02:19 
-        #  on bar (protocol)"
-    my $first_line = <$fh>;
-
     $self->{fh} = $fh;
+
+    bless $self, $class;
+    $self->reset();
 
     DEBUG "Parsing logfile $self->{file}";
 
@@ -51,8 +51,6 @@ sub new {
                "from it.";
     }
 
-    bless $self, $class;
-
     if($self->{offset}) {
             # If an offset has been specified, leap ahead message
             # by message (therefore accounting for roll-overs) until
@@ -67,6 +65,35 @@ sub new {
     }
 
     return bless $self, $class;
+}
+
+###########################################
+sub as_string {
+###########################################
+    my($self, $opts) = @_;
+
+    my $string;
+
+    my $fh     = $self->{fh};
+    my $old_offset = $self->{offset};
+
+    $self->reset();
+
+    local $Text::Wrap::columns = ($opts->{columns} || 70);
+
+    while(my $m = $self->next_message()) {
+      my $content = $m->content();
+      $content =~ s/\n+/ /g;
+      $string .= fill("", "  ",
+                      nice_time($m->date()) . " " .
+                      $m->from() . ": " . $content) . "\n\n";
+    }
+
+      # reset fh
+    $self->{offset} = $old_offset;
+    seek $fh, $self->{offset}, 0;
+
+    return $string;
 }
 
 ###########################################
@@ -139,7 +166,10 @@ sub next_message {
             last;
         }
             # We have a continuation line.
-        chomp; $msg .= "\n$_"; $self->{offset} = tell $fh; }
+        chomp; 
+        $msg .= "\n$_"; 
+        $self->{offset} = tell $fh; 
+    }
 
         # Go back to the previous offset, before we tried searching
         # for continuation lines
@@ -216,6 +246,38 @@ sub datetime {
     return $self->{dt};
 }
 
+###########################################
+sub reset {
+###########################################
+    my($self) = @_;
+
+    my $fh = $self->{fh};
+    seek $fh, 0, 0;
+
+        # "Conversation with foo at 2005-10-29 23:02:19 
+        #  on bar (protocol)"
+    my $first_line = <$fh>;
+
+    $self->{offset} = tell $fh;
+
+    1;
+}
+
+###########################################
+sub nice_time {
+###########################################
+    my($time) = @_;
+
+    $time = time() unless defined $time;
+
+    my ($sec,$min,$hour,$mday,$mon,$year,
+     $wday,$yday,$isdst) = localtime($time);
+
+    return sprintf("%d/%02d/%02d %02d:%02d:%02d",
+     $year+1900, $mon+1, $mday,
+     $hour, $min, $sec);
+}
+
 1;
 
 __END__
@@ -268,6 +330,20 @@ Retrieve the DateTime object used internally by
 C<Gaim::Log::Parser>. Can be used to obtain the 
 the start date of the parsed log file or the time zone used.
 
+=item C<$parser-E<gt>reset()>
+
+Position the parser back to the beginning of the conversation. After
+this has been completed, the next next_message() will return the 
+first message in the log file.
+
+=item C<my $str = $parser-E<gt>as_string()>
+
+Return the entire conversation as a nicely formatted text string.
+By default, Text::Wrap's column with lines will be set to 70, if you
+prefer a different width, specify it explicitely
+
+    my $str = $parser->as_string( {columns => 30} );
+
 =head1 SEE ALSO
 
 L<Gaim::Log::Finder>, L<Gaim::Log::Message> in this distribution
@@ -276,7 +352,7 @@ L<Gaim::Log::Finder>, L<Gaim::Log::Message> in this distribution
 
 =head1 LEGALESE
 
-Copyright 2005-2007 by Mike Schilli, all rights reserved.
+Copyright 2005-2008 by Mike Schilli, all rights reserved.
 This program is free software, you can redistribute it and/or
 modify it under the same terms as Perl itself.
 

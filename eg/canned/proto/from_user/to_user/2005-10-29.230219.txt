@@ -7,3 +7,5 @@ j
 (06:45:05) to_user: reply
 (06:45:05) chat_user: reply
 (06:45:06) to_user: line with : embedded
+(06:45:06) to_user: This is a really long line, so long that it will need to be formatted by the
+formatter in the as_string() function.

@@ -12,5 +12,4 @@ README
 t/001Basic.t
 t/002DateTime.t
 t/003Finder.t
-t/data/yahoo/from/to/2006-12-08.163235.txt
 META.yml                                 Module meta-data (added by MakeMaker)

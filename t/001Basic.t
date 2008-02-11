@@ -9,7 +9,7 @@ use strict;
 use Gaim::Log::Parser;
 
 use Test::More;
-plan tests => 16;
+plan tests => 17;
 
 use Log::Log4perl qw(:easy);
 #Log::Log4perl->easy_init($DEBUG);
@@ -47,6 +47,8 @@ $msg = $p->next_message();
 is($msg->from(), "chat_user", "chat_user sends");
 
 is($p->datetime->month, "10", "check datetime");
+
+like($p->as_string(), qr(^2005/11/01)m, "as_string formatter");
 
 $msg = $p->next_message();
 is($msg->content(), "line with : embedded", "line with :");

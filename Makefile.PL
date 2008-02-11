@@ -7,11 +7,12 @@ WriteMakefile(
     'NAME'         => 'Gaim::Log::Parser',
     'VERSION_FROM' => 'lib/Gaim/Log/Parser.pm', # finds $VERSION
     'PREREQ_PM'    => {
-        Log::Log4perl      => 0,
-        DateTime           => 0,
-        DateTime::TimeZone => 0,
+        Log::Log4perl              => 0,
+        DateTime                   => 0,
+        DateTime::TimeZone         => 0,
         DateTime::Format::Strptime => 0,
-    }, # e.g., Module::Name => 1.1
+        Text::Wrap                 => 0,
+    },
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM => 'lib/Gaim/Log/Parser.pm',
        AUTHOR     => 'Mike Schilli <cpan@perlmeister.com>') : ()),

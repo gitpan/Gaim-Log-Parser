@@ -1,6 +1,9 @@
 ######################################################################
 Revision history for Perl extension Gaim::Log::Parser
 
+0.10 2008/02/10
+    (ms) Added text formatter as_string()
+
 0.09 2007/06/04
     (ms) Added .purple directory to find logs in for gaim/pidgin 2.0
 
