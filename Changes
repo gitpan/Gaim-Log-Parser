@@ -1,6 +1,9 @@
 ######################################################################
 Revision history for Perl extension Gaim::Log::Parser
 
+0.11 2008/03/03
+    (ms) Parse new pidgin date format with am/pm
+
 0.10 2008/02/10
     (ms) Added text formatter as_string()
 

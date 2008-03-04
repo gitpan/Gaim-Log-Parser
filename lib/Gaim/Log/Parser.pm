@@ -8,7 +8,7 @@ use DateTime;
 use Gaim::Log::Message;
 use Text::Wrap qw(fill);
 
-our $VERSION = "0.10";
+our $VERSION = "0.11";
 
 ###########################################
 sub new {
@@ -102,7 +102,7 @@ sub next_message {
     my($self) = @_;
 
     my $fh = $self->{fh};
-    my $time_match      = qr/\d{2}:\d{2}:\d{2}/;
+    my $time_match      = qr(\d{2}:\d{2}:\d{2}(?: [AP]M)?);
     my $date_match      = qr(\d{2}/\d{2}/\d{2,4});
     my $euro_date_match = qr(\d{2}\.\d{2}\.\d{2,4});
 
@@ -189,10 +189,20 @@ sub next_message {
       $self->{dt} = $dtclone;
     }
 
+    my $pm = 0;
+    if($time =~ / PM/) {
+        $pm = 1;
+    }
+    $time =~ s/ .*//;
+
     my($hour, $minute, $second) = split /:/, $time;
     $dtclone->set_hour($hour);
     $dtclone->set_minute($minute);
     $dtclone->set_second($second);
+
+    if($pm) {
+        $dtclone->add(hours => 12);
+    }
 
     if(!$date and $dtclone->epoch() < $self->{dt}->epoch()) {
         # Rollover detected. Adjust datetime instance variable

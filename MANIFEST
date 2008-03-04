@@ -2,6 +2,7 @@ Changes
 eg/canned/proto/from_user/to_user/2005-10-29.230219.txt
 eg/canned/proto/from_user/to_user/2005-10-29.230220.txt
 eg/canned/proto/from_user/to_user/2005-10-29.230221.txt
+eg/canned/proto/from_user/to_user/2008-02-28.163023-0800PST.txt
 lib/Gaim/Log/Finder.pm
 lib/Gaim/Log/Message.pm
 lib/Gaim/Log/Parser.pm
@@ -12,4 +13,5 @@ README
 t/001Basic.t
 t/002DateTime.t
 t/003Finder.t
+t/004Pidgin.t
 META.yml                                 Module meta-data (added by MakeMaker)

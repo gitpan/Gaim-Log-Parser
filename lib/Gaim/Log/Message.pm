@@ -109,7 +109,7 @@ Content of the message.
 
 =over 4
 
-=item $msg-E<lt>as_string()
+=item $msg-E<gt>as_string()
 
 Format all messages fields (from, to, date, content) and return the
 result as a string.
