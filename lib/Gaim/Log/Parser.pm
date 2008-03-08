@@ -8,7 +8,7 @@ use DateTime;
 use Gaim::Log::Message;
 use Text::Wrap qw(fill);
 
-our $VERSION = "0.11";
+our $VERSION = "0.12";
 
 ###########################################
 sub new {
@@ -308,10 +308,15 @@ Gaim::Log::Parser - Parse Gaim's Log Files
 
 =head1 DESCRIPTION
 
-Gaim::Log::Parser parses Gaim's log files. In the 1.4+ series, they are 
+Gaim::Log::Parser parses Gaim/Pidgin's log files. In the 1.4+ series, they are 
 organized in the following way:
 
     .gaim/logs/protocol/local_user/comm_partner/2005-10-29.230219.txt
+
+Make sure that your Gaim/Pidgin client has logging turned on and that
+the logging format is set to 'text' (not html). If you have log files in
+html format already, run the utility eg/gaimlog-html2text to make
+text format copies of existing html logs.
 
 =head2 Methods
 

@@ -14,7 +14,6 @@ my $EG = "eg";
 $EG = "../eg" unless -d $EG;
 
 use Test::More;
-BEGIN { use_ok('Gaim::Log::Parser') };
 
 plan tests => 14;
 

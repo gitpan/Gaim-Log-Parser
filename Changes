@@ -1,6 +1,11 @@
 ######################################################################
 Revision history for Perl extension Gaim::Log::Parser
 
+0.12 (2008/03/08)
+    (ms) Added html/txt converter 'gaimlog-html2text', and documentation 
+         note on html vs. txt logs.
+    (ms) fixed 'You tried to run a test without a plan' problem
+
 0.11 2008/03/03
     (ms) Parse new pidgin date format with am/pm
 

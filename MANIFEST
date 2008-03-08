@@ -3,6 +3,7 @@ eg/canned/proto/from_user/to_user/2005-10-29.230219.txt
 eg/canned/proto/from_user/to_user/2005-10-29.230220.txt
 eg/canned/proto/from_user/to_user/2005-10-29.230221.txt
 eg/canned/proto/from_user/to_user/2008-02-28.163023-0800PST.txt
+eg/gaimlog-html2text
 lib/Gaim/Log/Finder.pm
 lib/Gaim/Log/Message.pm
 lib/Gaim/Log/Parser.pm
