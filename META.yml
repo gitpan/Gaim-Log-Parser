@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Gaim-Log-Parser
-version:             0.12
+version:             0.13
 abstract:            Parse Gaim's Log Files
 license:             ~
 generated_by:        ExtUtils::MakeMaker version 6.31

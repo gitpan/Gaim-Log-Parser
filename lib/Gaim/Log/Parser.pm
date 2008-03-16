@@ -8,7 +8,7 @@ use DateTime;
 use Gaim::Log::Message;
 use Text::Wrap qw(fill);
 
-our $VERSION = "0.12";
+our $VERSION = "0.13";
 
 ###########################################
 sub new {
@@ -105,16 +105,20 @@ sub next_message {
     my $time_match      = qr(\d{2}:\d{2}:\d{2}(?: [AP]M)?);
     my $date_match      = qr(\d{2}/\d{2}/\d{2,4});
     my $euro_date_match = qr(\d{2}\.\d{2}\.\d{2,4});
+    my $iso_date_match  = qr(\d{4}-\d{2}-\d{2});
+
 
     my $line_match_with_time = qr/^\(($time_match)\) (.*)/;
     my $line_match_with_date_and_time = 
                                qr/^\(($date_match) ($time_match)\) (.*)/;
     my $line_match_with_euro_date_and_time = 
                                qr/^\(($euro_date_match) ($time_match)\) (.*)/;
-
+    my $line_match_with_iso_date_and_time =
+                               qr/^\(($iso_date_match) ($time_match)\) (.*)/;
     my $line_match = qr($line_match_with_time|
                         $line_match_with_date_and_time|
-                        $line_match_with_euro_date_and_time)x;
+                        $line_match_with_euro_date_and_time|
+                        $line_match_with_iso_date_and_time)x;
 
         # Read next line
     my $line = <$fh>;
@@ -140,6 +144,11 @@ sub next_message {
     } elsif($line =~ /$line_match_with_euro_date_and_time/) {
         $date = $1;
         ($day, $month, $year) = split m#\.#, $date;
+        $time = $2;
+        $msg  = $3;
+    } elsif($line =~ /$line_match_with_iso_date_and_time/) {
+        $date = $1;
+        ($year, $month, $day) = split m#-#, $date;
         $time = $2;
         $msg  = $3;
     } else {

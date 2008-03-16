@@ -15,7 +15,7 @@ $EG = "../eg" unless -d $EG;
 
 use Test::More;
 
-plan tests => 14;
+plan tests => 16;
 
 my $canned = "$EG/canned/proto/from_user/to_user/2005-10-29.230219.txt";
 
@@ -78,3 +78,7 @@ is($msg->content(), "stu vwx", "Message string");
 $msg = $p->next_message();
 is($msg->date(), "1148782444", "No date, just time");
 is($msg->content(), "yza bcd", "Message string");
+
+$msg = $p->next_message();
+is($msg->date(), "1194554680", "EU date/time");
+is($msg->content(), "und wie isses?", "Message string");
