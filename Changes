@@ -1,6 +1,9 @@
 ######################################################################
 Revision history for Perl extension Gaim::Log::Parser
 
+0.14 2008/08/12
+    (ms) Applied patch by Thorsten Klein to skip .system directories.
+
 0.13 2008/03/15
     (ms) Applied patch by Thorsten Klein for parsing EU dates.
 

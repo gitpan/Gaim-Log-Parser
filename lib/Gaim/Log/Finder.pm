@@ -51,7 +51,8 @@ sub find {
 sub wanted {
 ###########################################
     my($self) = @_;
-
+    
+    return if $File::Find::name =~ m#$self->{start_dir}/(.*?)/(.*?)/.system/#;
     my $path = $File::Find::name;
 
     my($protocol, $local_user, $remote_user, $file) =

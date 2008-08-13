@@ -8,7 +8,7 @@ use DateTime;
 use Gaim::Log::Message;
 use Text::Wrap qw(fill);
 
-our $VERSION = "0.13";
+our $VERSION = "0.14";
 
 ###########################################
 sub new {
